@@ -1,6 +1,7 @@
 FROM simplicityitself-muon-image.jfrog.io/ubuntu
 
-RUN apt-get install -y dirmngr curl xz-utils
+RUN apt-get install -y dirmngr curl xz-utils libtool autoconf automake g++ build-essential make python
+
 RUN groupadd --gid 1000 node \
   && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
@@ -32,5 +33,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
   && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
   && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs
+
+RUN npm install node-gyp -g
 
 CMD [ "node" ]
